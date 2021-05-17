@@ -42,11 +42,21 @@ public class ParkingSpot {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParkingSpot that = (ParkingSpot) o;
-        return number == that.number;
+        return number == that.number && isAvailable == that.isAvailable && parkingType == that.parkingType;
     }
 
     @Override
     public int hashCode() {
         return number;
+    }
+
+    // TODO to be deleted before going into production
+    @Override
+    public String toString() {
+        return "ParkingSpot{" +
+                "number=" + number +
+                ", parkingType=" + parkingType +
+                ", isAvailable=" + isAvailable +
+                '}';
     }
 }
