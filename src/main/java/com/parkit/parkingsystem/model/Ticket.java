@@ -1,6 +1,5 @@
 package com.parkit.parkingsystem.model;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class Ticket {
@@ -57,5 +56,18 @@ public class Ticket {
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
+    }
+
+    //    TODO to be deleted before going into production
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", parkingSpot=" + parkingSpot +
+                ", vehicleRegNumber='" + vehicleRegNumber + '\'' +
+                ", price=" + price +
+                ", inTime=" + inTime +
+                ", outTime=" + outTime +
+                '}';
     }
 }
