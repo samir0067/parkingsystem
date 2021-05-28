@@ -23,9 +23,9 @@ public class FareCalculatorService {
 
         boolean isFree = false;
 
-        long diffTimeInMinute = (diffTime / 60 / 1000);
-        LOGGER.info("diff Time In Minute ===> {} ", diffTimeInMinute);
-        if (diffTimeInMinute <= 30) {
+        long diffTimeMinute = (diffTime / 60 / 1000);
+        LOGGER.info("diff Time In Minute ===> {} ", diffTimeMinute);
+        if (diffTimeMinute <= 30) {
             // We calculate minutes since this is the same "hour"
             ticket.setPrice(0);
             isFree = true;

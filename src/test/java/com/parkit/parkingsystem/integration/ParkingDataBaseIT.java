@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -66,6 +68,7 @@ public class ParkingDataBaseIT {
         assertNotNull(ticket);
         assertNotNull(parkingSpot);
         assertFalse(parkingSpot.isAvailable());
+        assertEquals("ABCDEF", ticket.getVehicleRegNumber());
         assertEquals(additionalSpotParking, parkingSpot.getId());
         // TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " du véhicule immatriculé: " + ticket.getVehicleRegNumber()
@@ -76,21 +79,22 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testPriceAndTimeToExitTheParkingLot() {
+    public void testPriceAndTimeToExitTheParkingLot() throws InterruptedException {
         TestParkingSpotForCar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        TimeUnit.SECONDS.sleep(4);
         assertNotNull(ticket);
         assertNotNull(ticket.getInTime());
         assertNotNull(ticket.getOutTime());
-        assertEquals(Math.rint((10800.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR), Math.rint(ticket.getPrice()));
+        assertEquals(Math.rint((4.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR), Math.rint(ticket.getPrice())); // (10800.0) for 3 hours
         //TODO: check that the fare generated and out time are populated correctly in the database
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " arriver à: " + ticket.getInTime()
                 + "\n et bien partir à: " + ticket.getOutTime()
                 + "\n ainsi, confirme que le prix du ticket sera de: " + ticket.getPrice()
                 + "\n et que le prix attendu et de => " + Math.rint(ticket.getPrice())
-                + " qui correspond bien au prix obtenu de => " + Math.rint((10800.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR));
+                + " qui correspond bien au prix obtenu de => " + Math.rint((4.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR));
 
     }
 

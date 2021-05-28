@@ -48,7 +48,9 @@ public class ParkingService {
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
-                ticket.setInTime(lessOneHour.getTime());
+                ticket.setInTime(inTime);
+                // TODO continuation of the integration tests
+//                ticket.setInTime(lessOneHour.getTime());
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
