@@ -8,6 +8,7 @@ import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.slf4j.Logger;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -37,13 +38,17 @@ public class ParkingService {
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
                 Date inTime = new Date();
+                // TODO remove 3 hours when you arrive for the test
+                Calendar lessOneHour = Calendar.getInstance();
+                lessOneHour.add(Calendar.HOUR, -3);
+
                 Ticket ticket = new Ticket();
                 //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
                 //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
-                ticket.setInTime(inTime);
+                ticket.setInTime(lessOneHour.getTime());
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
@@ -80,15 +85,15 @@ public class ParkingService {
     }
 
     private ParkingType getVehicleType() {
-        System.out.println("Please select vehicle type from menu");
-        System.out.println("1 CAR");
-        System.out.println("2 BIKE");
+        System.out.println("Please select the vehicle type from menu : (1) for CAR, (2) for BIKE. ");
         int input = inputReaderUtil.readSelection();
         switch (input) {
             case 1: {
+                System.out.println("1 CAR");
                 return ParkingType.CAR;
             }
             case 2: {
+                System.out.println("2 BIKE");
                 return ParkingType.BIKE;
             }
             default: {
