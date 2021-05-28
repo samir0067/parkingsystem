@@ -38,7 +38,7 @@ public class ParkingService {
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
                 Date inTime = new Date();
-                // TODO remove 3 hours when you arrive for the test
+                // TODO remove 3 hours when you arrive for integration testing
                 Calendar lessOneHour = Calendar.getInstance();
                 lessOneHour.add(Calendar.HOUR, -3);
 
