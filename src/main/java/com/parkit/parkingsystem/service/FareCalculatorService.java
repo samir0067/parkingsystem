@@ -11,7 +11,7 @@ public class FareCalculatorService {
     private static final Logger LOGGER = getLogger(FareCalculatorService.class);
 
     public void calculateFare(Ticket ticket) {
-        LOGGER.debug("Start call with parameter ===> {} ", ticket);
+        LOGGER.info("Start call with parameter ===> {} ", ticket);
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
             assert ticket.getOutTime() != null;
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
@@ -23,7 +23,9 @@ public class FareCalculatorService {
 
         boolean isFree = false;
 
-        if (diffTime <= (30 * 60 * 1000)) {
+        long diffTimeMinute = (diffTime / 60 / 1000);
+        LOGGER.info("diff Time In Minute ===> {} ", diffTimeMinute);
+        if (diffTimeMinute <= 30) {
             // We calculate minutes since this is the same "hour"
             ticket.setPrice(0);
             isFree = true;
