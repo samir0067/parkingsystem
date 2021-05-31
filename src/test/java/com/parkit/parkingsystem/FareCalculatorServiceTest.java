@@ -152,4 +152,10 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
         assertEquals(Fare.BIKE_RATE_PER_HOUR * 0, ticket.getPrice());
     }
+
+    @Test
+    public void calculatePriceWithRecurringUsers() {
+
+    }
+
 }

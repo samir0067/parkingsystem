@@ -17,21 +17,18 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
 
+        boolean isFree = false;
         long inTime = ticket.getInTime().getTime();
         long outTime = ticket.getOutTime().getTime();
         long diffTime = outTime - inTime;
-
-        boolean isFree = false;
-
         long diffTimeMinute = (diffTime / 60 / 1000);
-        LOGGER.info("diff Time In Minute ===> {} ", diffTimeMinute);
+
         if (diffTimeMinute <= 30) {
             // We calculate minutes since this is the same "hour"
             ticket.setPrice(0);
             isFree = true;
         }
 
-        // long timeToInvoice = (diffTime - (30*60*1000))/1000/60;
         long timeToInvoiceInMinutes = (diffTime) / 1000 / 60;
         double timeToInvoiceInHours = timeToInvoiceInMinutes / 60.0;
 
@@ -50,5 +47,10 @@ public class FareCalculatorService {
                     throw new IllegalArgumentException("Unknown Parking Type");
             }
         }
+    }
+
+    public void calculateDiscount(Ticket ticket) {
+        calculateFare(ticket);
+        LOGGER.info("the current ticket price ===> {} ", ticket.getPrice());
     }
 }
