@@ -12,7 +12,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
     private static final Logger LOGGER = getLogger(DataBaseTestConfig.class);
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        LOGGER.info("Create DB connection");
+        LOGGER.info("Create testDB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/test?serverTimezone=UTC", "Samir", "ihsane11");
@@ -22,7 +22,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
         if (con != null) {
             try {
                 con.close();
-                LOGGER.info("Closing DB connection !!!");
+                LOGGER.info("Closing testDB connection !!!");
             } catch (SQLException e) {
                 LOGGER.error("Error while closing connection ===>", e);
             }
@@ -33,7 +33,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
         if (ps != null) {
             try {
                 ps.close();
-                LOGGER.info("Closing Prepared Statement !!!");
+                LOGGER.info("Test Closing Prepared Statement !!!");
             } catch (SQLException e) {
                 LOGGER.error("Error while closing prepared statement ===>", e);
             }
@@ -44,7 +44,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
         if (rs != null) {
             try {
                 rs.close();
-                LOGGER.info("Closing Result Set !!!");
+                LOGGER.info("Test Closing Result Set !!!");
             } catch (SQLException e) {
                 LOGGER.error("Error while closing result set ===>", e);
             }

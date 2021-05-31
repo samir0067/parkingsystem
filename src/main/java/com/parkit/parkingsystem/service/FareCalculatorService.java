@@ -11,15 +11,16 @@ public class FareCalculatorService {
     private static final Logger LOGGER = getLogger(FareCalculatorService.class);
 
     public void calculateFare(Ticket ticket) {
-        LOGGER.info("Start call with parameter ===> {} ", ticket);
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
             assert ticket.getOutTime() != null;
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
 
         boolean isFree = false;
+
         long inTime = ticket.getInTime().getTime();
         long outTime = ticket.getOutTime().getTime();
+
         long diffTime = outTime - inTime;
         long diffTimeMinute = (diffTime / 60 / 1000);
 
