@@ -8,7 +8,6 @@ import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.slf4j.Logger;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -17,7 +16,7 @@ public class ParkingService {
 
     private static final Logger LOGGER = getLogger(ParkingService.class);
 
-    private static final FareCalculatorService fareCalculatorService = new FareCalculatorService();
+    private static final FareCalculatorService fareCalculatorService = new FareCalculatorService(new TicketDAO());
 
     private final InputReaderUtil inputReaderUtil;
     private final ParkingSpotDAO parkingSpotDAO;
@@ -38,9 +37,6 @@ public class ParkingService {
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
                 Date inTime = new Date();
-                // TODO remove 3 hours when you arrive for integration testing
-                Calendar lessOneHour = Calendar.getInstance();
-                lessOneHour.add(Calendar.HOUR, -3);
 
                 Ticket ticket = new Ticket();
                 //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
@@ -49,8 +45,6 @@ public class ParkingService {
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
-                // TODO continuation of the integration tests
-//                ticket.setInTime(lessOneHour.getTime());
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
