@@ -165,8 +165,33 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
-    public void calculatePriceWithRecurringUsers() {
+    public void calculatePriceCareWithRecurringUsers() {
+        Date inTime = new Date();
+        inTime.setTime(System.currentTimeMillis() - (48 * 60 * 60 * 1000));
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
 
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("care-67");
+        fareCalculatorService.calculateFare(ticket);
+        assertEquals((48 * Fare.CAR_RATE_PER_HOUR) - (48 * Fare.CAR_RATE_PER_HOUR * Fare.DISCOUNT), ticket.getPrice() - (ticket.getPrice() * Fare.DISCOUNT));
+    }
+
+    @Test
+    public void calculatePriceBikeWithRecurringUsers() {
+        Date inTime = new Date();
+        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000 * 48));
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("bike-67");
+        fareCalculatorService.calculateFare(ticket);
+        assertEquals((48 * Fare.BIKE_RATE_PER_HOUR) - (48 * Fare.BIKE_RATE_PER_HOUR * Fare.DISCOUNT), ticket.getPrice() - (ticket.getPrice() * Fare.DISCOUNT));
     }
 
 }
