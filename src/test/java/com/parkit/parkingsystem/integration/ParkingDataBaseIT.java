@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,7 +50,7 @@ public class ParkingDataBaseIT {
     @BeforeEach
     private void setUpPerTest() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("care-68");
         dataBasePrepareService.clearDataBaseEntries();
     }
 
@@ -63,17 +64,17 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Number additionalSpotParking = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
         parkingService.processIncomingVehicle();
-        Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        Ticket ticket = ticketDAO.getTicket("care-68");
         ParkingSpot parkingSpot = ticket.getParkingSpot();
         assertNotNull(ticket);
         assertNotNull(parkingSpot);
         assertFalse(parkingSpot.isAvailable());
-        assertEquals("ABCDEF", ticket.getVehicleRegNumber());
+        assertEquals("care-68", ticket.getVehicleRegNumber());
         assertEquals(additionalSpotParking, parkingSpot.getId());
         // TODO: check that a ticket is actually saved in DB and Parking table is updated with availability
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " du véhicule immatriculé: " + ticket.getVehicleRegNumber()
                 + "\n utilise la place de stationnement N°: " + parkingSpot.getId()
-                + "\n ainsi, confirme qu’elle n'est plus disponible: " + parkingSpot.isAvailable()
+                + "\n ainsi, confirme qu'elle n'est plus disponible: " + parkingSpot.isAvailable()
                 + "\n et que la place utiliser n° " + parkingSpot.getId() + " et identique la place de stationnement supplémentaire N°: " + additionalSpotParking);
 
     }
@@ -83,11 +84,13 @@ public class ParkingDataBaseIT {
         TestParkingSpotForCar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
-        Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        Ticket ticket = ticketDAO.getTicket("care-68");
         TimeUnit.SECONDS.sleep(4);
         assertNotNull(ticket);
-        assertNotNull(ticket.getInTime());
-        assertNotNull(ticket.getOutTime());
+        Date inTime = ticket.getInTime();
+        assertNotNull(inTime);
+        Date outTime = ticket.getOutTime();
+        assertNotNull(outTime);
         assertEquals(Math.rint((4.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR), Math.rint(ticket.getPrice())); // (10800.0) for 3 hours
         //TODO: check that the fare generated and out time are populated correctly in the database
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " arriver à: " + ticket.getInTime()
