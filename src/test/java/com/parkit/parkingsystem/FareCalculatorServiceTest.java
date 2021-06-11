@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
@@ -175,8 +176,12 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("care-67");
+
+        Ticket ticketInDb = new Ticket();
+        Mockito.when(ticketDAO.getTicket("care-67")).thenReturn(ticketInDb);
+
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((48 * Fare.CAR_RATE_PER_HOUR) - (48 * Fare.CAR_RATE_PER_HOUR * Fare.DISCOUNT), ticket.getPrice() - (ticket.getPrice() * Fare.DISCOUNT));
+        assertEquals((48 * Fare.CAR_RATE_PER_HOUR) - (48 * Fare.CAR_RATE_PER_HOUR * Fare.DISCOUNT), ticket.getPrice());
     }
 
     @Test
@@ -190,8 +195,12 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("bike-67");
+
+        Ticket ticketInDb = new Ticket();
+        Mockito.when(ticketDAO.getTicket("bike-67")).thenReturn(ticketInDb);
+
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((48 * Fare.BIKE_RATE_PER_HOUR) - (48 * Fare.BIKE_RATE_PER_HOUR * Fare.DISCOUNT), ticket.getPrice() - (ticket.getPrice() * Fare.DISCOUNT));
+        assertEquals((48 * Fare.BIKE_RATE_PER_HOUR) - (48 * Fare.BIKE_RATE_PER_HOUR * Fare.DISCOUNT), ticket.getPrice());
     }
 
 }

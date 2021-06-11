@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +55,6 @@ public class ParkingDataBaseIT {
 
     @AfterAll
     private static void tearDown() {
-
     }
 
     @Test
@@ -87,10 +85,8 @@ public class ParkingDataBaseIT {
         Ticket ticket = ticketDAO.getTicket("care-68");
         TimeUnit.SECONDS.sleep(4);
         assertNotNull(ticket);
-        Date inTime = ticket.getInTime();
-        assertNotNull(inTime);
-        Date outTime = ticket.getOutTime();
-        assertNotNull(outTime);
+        assertNotNull(ticket.getInTime());
+        assertNotNull(ticket.getOutTime());
         assertEquals(Math.rint((4.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR), Math.rint(ticket.getPrice())); // (10800.0) for 3 hours
         //TODO: check that the fare generated and out time are populated correctly in the database
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " arriver à: " + ticket.getInTime()
