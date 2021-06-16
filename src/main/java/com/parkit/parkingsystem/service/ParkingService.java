@@ -6,6 +6,7 @@ import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 
 import java.util.Date;
@@ -45,7 +46,7 @@ public class ParkingService {
                 ticket.setVehicleRegNumber(vehicleRegNumber);
                 ticket.setPrice(0);
                 ticket.setInTime(inTime);
-                ticket.setOutTime(null);
+//                ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
@@ -99,11 +100,10 @@ public class ParkingService {
         }
     }
 
-    public void processExitingVehicle() {
+    public void processExitingVehicle(Date outTime) {
         try {
             String vehicleRegNumber = getVehicleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            Date outTime = new Date();
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
             if (ticketDAO.updateTicket(ticket)) {

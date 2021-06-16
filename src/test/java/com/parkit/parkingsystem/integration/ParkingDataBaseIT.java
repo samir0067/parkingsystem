@@ -10,6 +10,7 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,13 +83,21 @@ public class ParkingDataBaseIT {
     public void testPriceAndTimeToExitTheParkingLot() throws InterruptedException {
         TestParkingSpotForCar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        parkingService.processExitingVehicle();
         Ticket ticket = ticketDAO.getTicket("care-68");
-        TimeUnit.SECONDS.sleep(4);
+        Date outTimeParam = DateUtils.addHours(ticket.getInTime(), 2);
+        parkingService.processExitingVehicle(outTimeParam);
+        ticket = ticketDAO.getTicket("care-68");
         assertNotNull(ticket);
         assertNotNull(ticket.getInTime());
         assertNotNull(ticket.getOutTime());
-        assertEquals(Math.rint((4.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR), Math.rint(ticket.getPrice())); // (10800.0) for 3 hours
+        long inTime = ticket.getInTime().getTime();
+        long outTime = ticket.getOutTime().getTime();
+        long diffTime = outTime - inTime;
+        long timeToInvoiceInMinutes = (diffTime) / 1000 / 60;
+        double timeToInvoiceInHours = timeToInvoiceInMinutes / 60.0;
+        double total = timeToInvoiceInHours * Fare.CAR_RATE_PER_HOUR;
+
+        assertEquals(total, ticket.getPrice());
         //TODO: check that the fare generated and out time are populated correctly in the database
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " arriver à: " + ticket.getInTime()
                 + "\n et bien partir à: " + ticket.getOutTime()
