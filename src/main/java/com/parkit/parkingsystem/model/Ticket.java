@@ -1,6 +1,5 @@
 package com.parkit.parkingsystem.model;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class Ticket {
@@ -44,18 +43,38 @@ public class Ticket {
     }
 
     public Date getInTime() {
-        return inTime;
+        return new Date(inTime.getTime());
     }
 
     public void setInTime(Date inTime) {
-        this.inTime = inTime;
+        this.inTime = new Date(inTime.getTime());
     }
 
     public Date getOutTime() {
-        return outTime;
+        if (outTime != null) {
+            return new Date(outTime.getTime());
+        }
+        return null;
     }
 
     public void setOutTime(Date outTime) {
-        this.outTime = outTime;
+        if (outTime != null) {
+            this.outTime = new Date(outTime.getTime());
+        } else {
+            this.outTime = null;
+        }
+    }
+
+    //    TODO to be deleted before going into production
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", parkingSpot=" + parkingSpot +
+                ", vehicleRegNumber='" + vehicleRegNumber + '\'' +
+                ", price=" + price +
+                ", inTime=" + inTime +
+                ", outTime=" + outTime +
+                '}';
     }
 }
