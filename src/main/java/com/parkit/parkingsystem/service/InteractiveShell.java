@@ -5,6 +5,8 @@ import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.slf4j.Logger;
 
+import java.util.Date;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class InteractiveShell {
@@ -30,7 +32,7 @@ public class InteractiveShell {
                     break;
                 }
                 case 2: {
-                    parkingService.processExitingVehicle();
+                    parkingService.processExitingVehicle(new Date());
                     break;
                 }
                 case 3: {
