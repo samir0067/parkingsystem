@@ -69,12 +69,12 @@ public class ParkingDataBaseIT {
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " du véhicule immatriculé: " + ticket.getVehicleRegNumber()
                 + "\n utilise la place de stationnement N°: " + parkingSpot.getId()
                 + "\n ainsi, confirme qu'elle n'est plus disponible: " + parkingSpot.isAvailable()
-                + "\n et que la place utiliser n° " + parkingSpot.getId() + " et identique la place de stationnement supplémentaire N°: " + additionalSpotParking);
-
+                + "\n et que la place utiliser n° " + parkingSpot.getId()
+                + " et identique la place de stationnement supplémentaire N°: " + additionalSpotParking);
     }
 
     @Test
-    public void testPriceAndTimeToExitTheParkingLot() throws InterruptedException {
+    public void testPriceAndTimeToExitTheParkingLot() {
         TestParkingSpotForCar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Ticket ticket = ticketDAO.getTicket("care-68");
@@ -99,7 +99,5 @@ public class ParkingDataBaseIT {
                 + "\n ainsi, confirme que le prix du ticket sera de: " + ticket.getPrice()
                 + "\n et que le prix attendu et de => " + total
                 + " qui correspond bien au prix obtenu de => " + ticket.getPrice());
-
     }
-
 }
