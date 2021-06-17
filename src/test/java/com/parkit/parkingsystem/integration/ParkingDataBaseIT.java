@@ -11,7 +11,6 @@ import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.commons.lang.time.DateUtils;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,10 +53,6 @@ public class ParkingDataBaseIT {
         dataBasePrepareService.clearDataBaseEntries();
     }
 
-    @AfterAll
-    private static void tearDown() {
-    }
-
     @Test
     public void TestParkingSpotForCar() {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -89,6 +84,7 @@ public class ParkingDataBaseIT {
         assertNotNull(ticket);
         assertNotNull(ticket.getInTime());
         assertNotNull(ticket.getOutTime());
+
         long inTime = ticket.getInTime().getTime();
         long outTime = ticket.getOutTime().getTime();
         long diffTime = outTime - inTime;
@@ -101,8 +97,8 @@ public class ParkingDataBaseIT {
         LOGGER.info("\n le ticket N°: " + ticket.getId() + " arriver à: " + ticket.getInTime()
                 + "\n et bien partir à: " + ticket.getOutTime()
                 + "\n ainsi, confirme que le prix du ticket sera de: " + ticket.getPrice()
-                + "\n et que le prix attendu et de => " + Math.rint(ticket.getPrice())
-                + " qui correspond bien au prix obtenu de => " + Math.rint((4.0 / 3600.0) * Fare.CAR_RATE_PER_HOUR));
+                + "\n et que le prix attendu et de => " + total
+                + " qui correspond bien au prix obtenu de => " + ticket.getPrice());
 
     }
 
