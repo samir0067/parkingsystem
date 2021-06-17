@@ -6,7 +6,6 @@ import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.util.InputReaderUtil;
-import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 
 import java.util.Date;

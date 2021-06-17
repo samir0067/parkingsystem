@@ -3,13 +3,9 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
-import org.slf4j.Logger;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 public class FareCalculatorService {
 
-    private static final Logger LOGGER = getLogger(FareCalculatorService.class);
     private final TicketDAO ticketDao;
 
     public FareCalculatorService(TicketDAO ticketDAO) {
@@ -31,7 +27,6 @@ public class FareCalculatorService {
         long diffTimeMinute = (diffTime / 60 / 1000);
 
         if (diffTimeMinute <= 30) {
-            // We calculate minutes since this is the same "hour"
             ticket.setPrice(0);
             isFree = true;
         }

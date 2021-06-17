@@ -21,7 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
