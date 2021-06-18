@@ -19,6 +19,7 @@ public class FareCalculatorService {
         }
 
         boolean isFree = false;
+        boolean isDiscount = false;
 
         long inTime = ticket.getInTime().getTime();
         long outTime = ticket.getOutTime().getTime();
@@ -31,10 +32,7 @@ public class FareCalculatorService {
             isFree = true;
         }
 
-        long timeToInvoiceInMinutes = (diffTime) / 1000 / 60;
-        double timeToInvoiceInHours = timeToInvoiceInMinutes / 60.0;
-
-        boolean isDiscount = false;
+        double timeToInvoiceInHours = diffTimeMinute / 60.0;
 
         Ticket ticketInDB = ticketDao.getTicket(ticket.getVehicleRegNumber());
 
